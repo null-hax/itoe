@@ -102,7 +102,7 @@ const COLOR_EMOJI_MAP = [
   { color: [255, 248, 220], emoji: '✨' },   // Bright Highlights
   { color: [245, 245, 220], emoji: '⭐' },   // Beige Highlights
   { color: [255, 250, 240], emoji: '🌟' },   // Floral White
-  { color: [240, 248, 255], emoji: '❄️' },   // Alice Blue
+  { color: [240, 248, 255], emoji: '🌐' },   // Alice Blue
   { color: [245, 255, 250], emoji: '💫' }    // Mint Cream
 ];
 
