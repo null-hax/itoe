@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
+import html2canvas from 'html2canvas'
 import { imageToEmoji } from '../utils/imageToEmoji'
 
 interface ImageDisplayProps {
@@ -26,7 +27,10 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
-      'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.webp']
+      'image/jpeg': ['.jpg', '.jpeg'],
+      'image/png': ['.png'],
+      'image/gif': ['.gif'],
+      'image/webp': ['.webp']
     },
     onDrop: async (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
@@ -35,7 +39,9 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
         await onImageSelect(imageUrl)
       }
     },
-    multiple: false
+    multiple: false,
+    noKeyboard: true,
+    preventDropOnDocument: true
   })
 
   useEffect(() => {
@@ -89,6 +95,30 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
     }
   }, [emojiArt])
 
+  const handleExport = async () => {
+    if (!preRef.current) return
+    
+    const canvas = await html2canvas(preRef.current, {
+      backgroundColor: '#D7D5CA',
+      scale: window.devicePixelRatio * 5,
+    })
+    
+    const link = document.createElement('a')
+    link.download = 'emoji-art.png'
+    link.href = canvas.toDataURL('image/png')
+    link.click()
+  }
+
+  const handleCopy = async () => {
+    if (!emojiArt) return
+    
+    try {
+      await navigator.clipboard.writeText(emojiArt)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
+  }
+
   if (loading) {
     return (
       <div className="w-full h-full flex items-center justify-center">
@@ -98,7 +128,7 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex flex-col items-center justify-center">
       <div 
         {...getRootProps()}
         ref={containerRef}
@@ -110,7 +140,7 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
         {isDragActive && (
           <div className="absolute inset-0 bg-opacity-10 flex items-center justify-center">
             <div className="bg-white px-6 py-4 rounded-lg shadow-lg">
-              Drop image here
+                 
             </div>
           </div>
         )}
@@ -126,6 +156,23 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
           {emojiArt}
         </pre>
       </div>
+      
+      {emojiArt && (
+        <div className="flex gap-4 mb-4">
+          <button
+            onClick={handleExport}
+            className="px-4 py-2 text-black border-2 border-black cursor-pointer hover:bg-white/20 transition-colors hover:border-black/80"
+          >
+            Export
+          </button>
+          <button
+            onClick={handleCopy}
+            className="px-4 py-2 text-black border-2 border-black cursor-pointer hover:bg-white/20 transition-colors hover:border-black/80"
+          >
+            Copy
+          </button>
+        </div>
+      )}
     </div>
   )
 } 

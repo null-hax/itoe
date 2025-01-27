@@ -71,8 +71,8 @@ const COLOR_EMOJI_MAP = [
   // Browns
   { color: [165, 42, 42], emoji: '🟫' },     // Brown
   { color: [139, 69, 19], emoji: '🌰' },     // Saddle Brown
-  { color: [160, 82, 45], emoji: '🪵' },     // Sienna
-  { color: [210, 180, 140], emoji: '🍪' },   // Tan
+  { color: [160, 82, 45], emoji: '📦' },     // Sienna
+  { color: [210, 180, 140], emoji: '📔' },   // Tan
   { color: [222, 184, 135], emoji: '🥜' },   // Burlywood
   
   // Greens
@@ -239,3 +239,4 @@ export async function imageToEmoji(
 export const matrixToText = (matrix: string[][]): string => {
   return matrix.map(row => row.join('')).join('\n');
 };
+
