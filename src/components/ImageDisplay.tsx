@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useDropzone } from 'react-dropzone'
 import { imageToEmoji } from '../utils/imageToEmoji'
 
 interface ImageDisplayProps {
@@ -7,6 +8,7 @@ interface ImageDisplayProps {
   useMultipleEmoji: boolean
   onImageSelect: (imageUrl: string) => Promise<void>
   emojiArt: string
+  loading: boolean
 }
 
 export const ImageDisplay: React.FC<ImageDisplayProps> = ({
@@ -14,69 +16,73 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
   selectedEmoji,
   useMultipleEmoji,
   onImageSelect,
-  emojiArt
+  emojiArt,
+  loading
 }) => {
-  const [loading, setLoading] = useState(false)
   const [scale, setScale] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
   const preRef = useRef<HTMLPreElement>(null)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: {
+      'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.webp']
+    },
+    onDrop: async (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        const file = acceptedFiles[0]
+        const imageUrl = URL.createObjectURL(file)
+        await onImageSelect(imageUrl)
+      }
+    },
+    multiple: false
+  })
+
   useEffect(() => {
     const calculateScale = () => {
-      if (!containerRef.current || !preRef.current) return
+      if (!containerRef.current || !preRef.current || !emojiArt) return
 
       const container = containerRef.current
       const pre = preRef.current
 
-      // Reset transform and clear any previous measurements
       pre.style.transform = 'none'
       pre.style.maxWidth = 'none'
       pre.style.maxHeight = 'none'
+      pre.style.visibility = 'hidden'
 
-      // Get fresh measurements
-      const containerRect = container.getBoundingClientRect()
-      const preRect = pre.getBoundingClientRect()
+      requestAnimationFrame(() => {
+        if (!containerRef.current || !preRef.current) return
+        
+        const containerRect = container.getBoundingClientRect()
+        const preRect = pre.getBoundingClientRect()
 
-      // Calculate available space with padding
-      const padding = 32
-      const availableWidth = containerRect.width - padding
-      const availableHeight = containerRect.height - padding
+        const padding = 32
+        const availableWidth = containerRect.width - padding
+        const availableHeight = containerRect.height - padding
 
-      // Calculate scale factors
-      const scaleX = availableWidth / preRect.width
-      const scaleY = availableHeight / preRect.height
+        const scaleX = availableWidth / preRect.width
+        const scaleY = availableHeight / preRect.height
 
-      // Use the smaller scale to maintain aspect ratio, but don't scale up
-      const newScale = Math.min(scaleX, scaleY)
-
-      // Apply the new scale
-      setScale(newScale)
+        const newScale = Math.min(scaleX, scaleY)
+        
+        setScale(newScale)
+        pre.style.visibility = 'visible'
+      })
     }
 
-    // Create a debounced version of calculateScale
-    let debounceTimer: number
-    const debouncedCalculateScale = () => {
-      window.clearTimeout(debounceTimer)
-      debounceTimer = window.setTimeout(calculateScale, 100)
-    }
+    calculateScale()
 
-    // Initial calculation with a slight delay to ensure content is rendered
-    const initialTimer = window.setTimeout(calculateScale, 50)
-
-    // Set up ResizeObserver for more reliable size change detection
     if (!resizeObserverRef.current) {
-      resizeObserverRef.current = new ResizeObserver(debouncedCalculateScale)
+      resizeObserverRef.current = new ResizeObserver(() => {
+        requestAnimationFrame(calculateScale)
+      })
     }
 
     if (containerRef.current) {
       resizeObserverRef.current.observe(containerRef.current)
     }
 
-    // Clean up
     return () => {
-      window.clearTimeout(initialTimer)
-      window.clearTimeout(debounceTimer)
       if (resizeObserverRef.current) {
         resizeObserverRef.current.disconnect()
       }
@@ -86,7 +92,7 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
   if (loading) {
     return (
       <div className="w-full h-full flex items-center justify-center">
-        <div className="animate-spin text-4xl">🍊</div>
+        <div className="animate-spin text-4xl"></div>
       </div>
     )
   }
@@ -94,9 +100,20 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
   return (
     <div className="w-full h-full flex items-center justify-center">
       <div 
+        {...getRootProps()}
         ref={containerRef}
-        className="w-full h-full max-w-[800px] max-h-[800px] flex items-center justify-center border border-black m-4 overflow-hidden"
+        className={`w-full h-full max-w-[800px] max-h-[800px] flex items-center justify-center border border-black m-4 overflow-hidden relative ${
+          isDragActive ? 'bg-gray-100' : ''
+        }`}
       >
+        <input {...getInputProps()} />
+        {isDragActive && (
+          <div className="absolute inset-0 bg-opacity-10 flex items-center justify-center">
+            <div className="bg-white px-6 py-4 rounded-lg shadow-lg">
+              Drop image here
+            </div>
+          </div>
+        )}
         <pre
           ref={preRef}
           className="font-mono text-xs leading-none whitespace-pre transition-transform duration-200 will-change-transform"
@@ -104,7 +121,6 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
             fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", sans-serif',
             transform: `scale(${scale})`,
             transformOrigin: 'center center',
-            visibility: scale === 1 ? 'hidden' : 'visible', // Prevent flash of unscaled content
           }}
         >
           {emojiArt}

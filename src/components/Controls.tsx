@@ -86,7 +86,7 @@ export const Controls: React.FC<ControlsProps> = ({
         <input
           type="range"
           min="20"
-          max="70"
+          max="90"
           value={detailLevel}
           onChange={(e) => onDetailLevelChange(Number(e.target.value))}
           className="detail-slider"

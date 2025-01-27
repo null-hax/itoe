@@ -7,10 +7,10 @@ import { imageToEmoji } from './utils/imageToEmoji'
 function App() {
   const [selectedEmoji, setSelectedEmoji] = useState('🍊')
   const [useMultipleEmoji, setUseMultipleEmoji] = useState(true)
-  const [imageUrl, setImageUrl] = useState('/eliza.png')
-  const [detailLevel, setDetailLevel] = useState(50)
+  const [imageUrl, setImageUrl] = useState('')
+  const [detailLevel, setDetailLevel] = useState(55)
   const [emojiArt, setEmojiArt] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const processImage = useCallback(async (url: string) => {
     try {
@@ -29,16 +29,16 @@ function App() {
     }
   }, [useMultipleEmoji, selectedEmoji, detailLevel])
 
-  // Update when controls change
+  // Initial load and control changes
   useEffect(() => {
-    if (imageUrl) {
+    if (!imageUrl) {
+      // Load default image on first mount
+      processImage('/eliza.png')
+    } else {
+      // Process current image when controls change
       processImage(imageUrl)
     }
-  }, [imageUrl, useMultipleEmoji, selectedEmoji, detailLevel, processImage])
-
-  const handleImageUpload = (url: string) => {
-    processImage(url);
-  };
+  }, [imageUrl, processImage])
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-[#D7D5CA]">
@@ -62,6 +62,7 @@ function App() {
             useMultipleEmoji={useMultipleEmoji}
             emojiArt={emojiArt}
             onImageSelect={processImage}
+            loading={loading}
           />
         </div>
       </main>

@@ -29,23 +29,23 @@ const COLOR_EMOJI_MAP = [
   // Mid Grays
   { color: [180, 180, 180], emoji: '☁️' },    // Light Cloud
   { color: [170, 170, 170], emoji: '🌫️' },    // Fog
-  { color: [160, 160, 160], emoji: '⚫' },    // Medium Gray
+  { color: [160, 160, 160], emoji: '🌚' },    // Medium Gray
   { color: [150, 150, 150], emoji: '💨' },    // Dash
   { color: [140, 140, 140], emoji: '🌪️' },    // Dark Cloud
   
   // Dark Grays and Blacks
-  { color: [100, 100, 100], emoji: '⬛' },    // Very Dark Gray
-  { color: [50, 50, 50], emoji: '📱' },      // Almost Black
-  { color: [0, 0, 0], emoji: '⬛' },         // Pure Black
+  { color: [100, 100, 100], emoji: '🖤' },    // Very Dark Gray
+  { color: [50, 50, 50], emoji: '⬛️' },      // Almost Black
+  { color: [0, 0, 0], emoji: '⚫️' },         // Pure Black
   
   // Reds (expanded range)
-  { color: [255, 0, 0], emoji: '❤️' },      // Pure Red
-  { color: [255, 20, 20], emoji: '♥️' },     // Bright Red
-  { color: [220, 20, 60], emoji: '💝' },     // Crimson
-  { color: [200, 0, 0], emoji: '❣️' },      // Deep Red
-  { color: [178, 34, 34], emoji: '💗' },     // Fire Brick
-  { color: [139, 0, 0], emoji: '🔴' },      // Dark Red
-  { color: [120, 0, 0], emoji: '🏮' },      // Very Dark Red
+  { color: [255, 0, 0], emoji: '🟥' },      // Pure Red
+  { color: [255, 20, 20], emoji: '🛑' },     // Bright Red
+  { color: [220, 20, 60], emoji: '🍎' },     // Crimson
+  { color: [200, 0, 0], emoji: '🔴' },      // Deep Red
+  { color: [178, 34, 34], emoji: '🍅' },     // Fire Brick
+  { color: [139, 0, 0], emoji: '🌹' },      // Dark Red
+  { color: [120, 0, 0], emoji: '🍓' },      // Very Dark Red
   
   // Pinks
   { color: [255, 192, 203], emoji: '🎀' },   // Light Pink
@@ -58,8 +58,8 @@ const COLOR_EMOJI_MAP = [
   { color: [255, 165, 0], emoji: '🟧' },     // Pure Orange
   { color: [255, 140, 0], emoji: '🟠' },     // Dark Orange
   { color: [255, 127, 80], emoji: '🔸' },    // Coral
-  { color: [255, 99, 71], emoji: '🌅' },     // Tomato
-  { color: [255, 69, 0], emoji: '🎃' },      // Red-Orange
+  { color: [255, 99, 71], emoji: '🍑' },     // Tomato
+  { color: [255, 69, 0], emoji: '🍊' },      // Red-Orange
   
   // Yellows
   { color: [255, 255, 0], emoji: '🟨' },     // Pure Yellow
@@ -89,8 +89,8 @@ const COLOR_EMOJI_MAP = [
   { color: [0, 0, 205], emoji: '🌊' },      // Medium Blue
   { color: [25, 25, 112], emoji: '🌌' },     // Midnight Blue
   { color: [0, 191, 255], emoji: '💦' },     // Deep Sky Blue
-  { color: [135, 206, 235], emoji: '🌡️' },   // Sky Blue
-  { color: [173, 216, 230], emoji: '🫧' },   // Light Blue
+  { color: [135, 206, 235], emoji: '🩵' },   // Sky Blue
+  { color: [173, 216, 230], emoji: '�' },   // Light Blue
   
   // Purples
   { color: [128, 0, 128], emoji: '💜' },     // Purple
