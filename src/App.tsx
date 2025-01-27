@@ -1,34 +1,34 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { ImageDisplay } from './components/ImageDisplay'
+import { Controls } from './components/Controls'
+import { Header } from './components/Header'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedEmoji, setSelectedEmoji] = useState('🍊')
+  const [useMultipleEmoji, setUseMultipleEmoji] = useState(true)
+  const [imageUrl, setImageUrl] = useState('/eliza.png')
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="min-h-screen bg-white flex flex-col">
+      <Header />
+      
+      <main className="flex-1 container mx-auto px-4 py-8 flex flex-col gap-8">
+        <Controls 
+          selectedEmoji={selectedEmoji}
+          setSelectedEmoji={setSelectedEmoji}
+          useMultipleEmoji={useMultipleEmoji}
+          setUseMultipleEmoji={setUseMultipleEmoji}
+          onImageUpload={setImageUrl}
+        />
+        
+        <ImageDisplay 
+          imageUrl={imageUrl}
+          selectedEmoji={selectedEmoji}
+          useMultipleEmoji={useMultipleEmoji}
+        />
+      </main>
+    </div>
   )
 }
 
