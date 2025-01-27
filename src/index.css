@@ -1,3 +1,31 @@
+@font-face {
+  font-family: 'Neue Haas';
+  src: url('/fonts/NHaasGroteskDSStd-55Rg.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Neue Haas';
+  src: url('/fonts/NHaasGroteskDSStd-65Md.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Neue Haas';
+  src: url('/fonts/NHaasGroteskDSStd-75Bd.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Tronica';
+  src: url('/fonts/Tronica/Tronica Mono.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import "tailwindcss";
 
 #root {
@@ -6,45 +34,44 @@
   padding: 0;
   margin: 0;
   overflow: hidden;
+  font-family: 'Neue Haas', sans-serif;
+  background-color: #D7D5CA;
+}
+
+.font-tronica {
+  font-family: 'Tronica', monospace;
 }
 
 .detail-slider {
-  width: 200px;
-  margin: 10px 0;
+  width: 120px;
   -webkit-appearance: none;
   appearance: none;
-  height: 4px;
-  border-radius: 2px;
-  background: #e5e7eb;
+  height: 1px;
+  background: #000000;
+  border-radius: 0;
+  position: relative;
+  top: 1px;
+  margin: 0;
 }
 
 .detail-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: #FF5800;
+  background: #000000;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-.detail-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
 }
 
 .detail-slider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: #FF5800;
+  background: #000000;
   cursor: pointer;
-  transition: all 0.2s ease;
   border: none;
-}
-
-.detail-slider::-moz-range-thumb:hover {
-  transform: scale(1.1);
 }
 
 .control-group {

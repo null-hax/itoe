@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import './App.css'
+import { useState, useCallback, useEffect } from 'react'
 import { ImageDisplay } from './components/ImageDisplay'
 import { Controls } from './components/Controls'
 import { Header } from './components/Header'
@@ -42,7 +41,7 @@ function App() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-white overflow-hidden">
+    <div className="h-screen flex flex-col overflow-hidden bg-[#D7D5CA]">
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-4 overflow-hidden flex flex-col min-h-0">

@@ -36,13 +36,13 @@ export const Controls: React.FC<ControlsProps> = ({
   }
 
   return (
-    <div className="flex flex-wrap gap-4 items-center justify-center bg-[#D7D5CA]/20 p-6 rounded-lg shadow-sm">
+    <div className="flex flex-wrap gap-6 items-center justify-center">
       <button
         onClick={() => setUseMultipleEmoji(!useMultipleEmoji)}
-        className={`px-4 py-2 rounded-lg font-medium transition-colors
+        className={`px-4 py-2 transition-colors cursor-pointer
           ${useMultipleEmoji 
-            ? 'bg-[#FF5800] text-white' 
-            : 'bg-white border-2 border-[#FF5800] text-[#FF5800]'
+            ? 'text-black border-b-2 bg-none border-black hover:bg-white/20 transition-colors hover:border-black/80' 
+            : 'text-black border-b-2 bg-none border-black hover:bg-white/20 transition-colors hover:border-black/80'
           }`}
       >
         {useMultipleEmoji ? 'Using All Emoji' : 'Using Single Emoji'}
@@ -52,7 +52,7 @@ export const Controls: React.FC<ControlsProps> = ({
         <div className="relative">
           <button
             onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-            className="text-4xl hover:scale-110 transition-transform"
+            className="text-4xl hover:opacity-80 transition-opacity"
             aria-label="Select emoji"
           >
             {selectedEmoji}
@@ -71,7 +71,7 @@ export const Controls: React.FC<ControlsProps> = ({
         </div>
       )}
 
-      <label className="px-4 py-2 bg-[#0022FD] text-white rounded-lg cursor-pointer hover:bg-[#0022FD]/90 transition-colors">
+      <label className="px-4 py-2 text-black border-2 border-black cursor-pointer hover:bg-white/20 transition-colors hover:border-black/80">
         Upload Image
         <input
           type="file"
@@ -81,17 +81,15 @@ export const Controls: React.FC<ControlsProps> = ({
         />
       </label>
       
-      <div className="flex flex-col items-center gap-2">
-        <label className="text-sm font-medium text-gray-700">
-          Detail Level: {detailLevel}
-        </label>
+      <div className="flex items-center gap-4">
+        <label className="text-black min-w-[50px]">Detail</label>
         <input
           type="range"
           min="20"
           max="70"
           value={detailLevel}
           onChange={(e) => onDetailLevelChange(Number(e.target.value))}
-          className="w-48 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+          className="detail-slider"
         />
       </div>
     </div>

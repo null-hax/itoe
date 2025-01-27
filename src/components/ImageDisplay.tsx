@@ -20,6 +20,7 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
   const [scale, setScale] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
   const preRef = useRef<HTMLPreElement>(null)
+  const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
   useEffect(() => {
     const calculateScale = () => {
@@ -28,36 +29,57 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
       const container = containerRef.current
       const pre = preRef.current
 
-      // Reset transform to measure true size
+      // Reset transform and clear any previous measurements
       pre.style.transform = 'none'
-      
+      pre.style.maxWidth = 'none'
+      pre.style.maxHeight = 'none'
+
+      // Get fresh measurements
       const containerRect = container.getBoundingClientRect()
       const preRect = pre.getBoundingClientRect()
 
-      // Add padding and calculate available space
-      const padding = 48 // 24px padding on each side
+      // Calculate available space with padding
+      const padding = 32
       const availableWidth = containerRect.width - padding
       const availableHeight = containerRect.height - padding
 
-      // Calculate scales
+      // Calculate scale factors
       const scaleX = availableWidth / preRect.width
       const scaleY = availableHeight / preRect.height
 
-      // Use the smaller scale to maintain aspect ratio
+      // Use the smaller scale to maintain aspect ratio, but don't scale up
       const newScale = Math.min(scaleX, scaleY)
-      
-      // Apply the scale
+
+      // Apply the new scale
       setScale(newScale)
     }
 
-    // Initial calculation after content renders
-    const timer = setTimeout(calculateScale, 50)
-    
-    // Recalculate on window resize
-    window.addEventListener('resize', calculateScale)
+    // Create a debounced version of calculateScale
+    let debounceTimer: number
+    const debouncedCalculateScale = () => {
+      window.clearTimeout(debounceTimer)
+      debounceTimer = window.setTimeout(calculateScale, 100)
+    }
+
+    // Initial calculation with a slight delay to ensure content is rendered
+    const initialTimer = window.setTimeout(calculateScale, 50)
+
+    // Set up ResizeObserver for more reliable size change detection
+    if (!resizeObserverRef.current) {
+      resizeObserverRef.current = new ResizeObserver(debouncedCalculateScale)
+    }
+
+    if (containerRef.current) {
+      resizeObserverRef.current.observe(containerRef.current)
+    }
+
+    // Clean up
     return () => {
-      window.removeEventListener('resize', calculateScale)
-      clearTimeout(timer)
+      window.clearTimeout(initialTimer)
+      window.clearTimeout(debounceTimer)
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect()
+      }
     }
   }, [emojiArt])
 
@@ -73,7 +95,7 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
     <div className="w-full h-full flex items-center justify-center">
       <div 
         ref={containerRef}
-        className="w-full h-full max-w-[800px] max-h-[800px] flex items-center justify-center bg-white/50 rounded-xl shadow-sm p-6 m-4 overflow-hidden"
+        className="w-full h-full max-w-[800px] max-h-[800px] flex items-center justify-center border border-black m-4 overflow-hidden"
       >
         <pre
           ref={preRef}
@@ -82,6 +104,7 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
             fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", sans-serif',
             transform: `scale(${scale})`,
             transformOrigin: 'center center',
+            visibility: scale === 1 ? 'hidden' : 'visible', // Prevent flash of unscaled content
           }}
         >
           {emojiArt}
