@@ -95,7 +95,7 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
     
     const canvas = await html2canvas(preRef.current, {
       backgroundColor: '#D7D5CA',
-      scale: window.devicePixelRatio * 5,
+      scale: window.devicePixelRatio * 4,
     })
     
     const link = document.createElement('a')
