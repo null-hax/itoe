@@ -5,7 +5,7 @@ const rgbToLuminance = (r: number, g: number, b: number): number => {
 // Define an expanded color map with more shades and patterns
 const COLOR_EMOJI_MAP = [
   // Whites and Bright Shades (ordered by brightness)
-  { color: [255, 255, 255], emoji: ' ' },     // Pure White (space)
+  { color: [255, 255, 255], emoji: '⬜' },     // Pure White (space)
   { color: [252, 252, 252], emoji: '️⚪' },    // Almost White
   { color: [248, 248, 248], emoji: '🤍' },    // Soft White
   { color: [245, 245, 245], emoji: '💭' },    // Cloud White
@@ -19,7 +19,7 @@ const COLOR_EMOJI_MAP = [
   { color: [190, 190, 190], emoji: '🌑' },    // New Moon
   
   // Mid Grays
-  { color: [180, 180, 180], emoji: '☁️' },    // Light Cloud
+  { color: [180, 180, 180], emoji: '🩶' },    // Light Cloud
   { color: [170, 170, 170], emoji: '🌫️' },    // Fog
   { color: [160, 160, 160], emoji: '🌚' },    // Medium Gray
   { color: [150, 150, 150], emoji: '💨' },    // Dash
@@ -65,7 +65,7 @@ const COLOR_EMOJI_MAP = [
   { color: [139, 69, 19], emoji: '🌰' },     // Saddle Brown
   { color: [160, 82, 45], emoji: '📦' },     // Sienna
   { color: [210, 180, 140], emoji: '📔' },   // Tan
-  { color: [222, 184, 135], emoji: '🥜' },   // Burlywood
+  { color: [222, 184, 135], emoji: '🥠' },   // Burlywood
   
   // Greens
   { color: [0, 255, 0], emoji: '💚' },      // Pure Green
@@ -82,7 +82,7 @@ const COLOR_EMOJI_MAP = [
   { color: [25, 25, 112], emoji: '🌌' },     // Midnight Blue
   { color: [0, 191, 255], emoji: '💦' },     // Deep Sky Blue
   { color: [135, 206, 235], emoji: '🩵' },   // Sky Blue
-  { color: [173, 216, 230], emoji: '�' },   // Light Blue
+  { color: [173, 216, 230], emoji: '🌐' },   // Light Blue
   
   // Purples
   { color: [128, 0, 128], emoji: '💜' },     // Purple
