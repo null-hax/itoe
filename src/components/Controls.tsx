@@ -88,7 +88,7 @@ export const Controls: React.FC<ControlsProps> = ({
         <input
           type="range"
           min="20"
-          max="100"
+          max="70"
           value={detailLevel}
           onChange={(e) => onDetailLevelChange(Number(e.target.value))}
           className="w-48 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"

@@ -42,10 +42,10 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="h-screen flex flex-col bg-white overflow-hidden">
       <Header />
       
-      <main className="flex-1 container mx-auto px-4 py-8 flex flex-col gap-8">
+      <main className="flex-1 container mx-auto px-4 py-4 overflow-hidden flex flex-col min-h-0">
         <Controls 
           selectedEmoji={selectedEmoji}
           setSelectedEmoji={setSelectedEmoji}
@@ -56,13 +56,15 @@ function App() {
           onDetailLevelChange={setDetailLevel}
         />
         
-        <ImageDisplay 
-          imageUrl={imageUrl}
-          selectedEmoji={selectedEmoji}
-          useMultipleEmoji={useMultipleEmoji}
-          emojiArt={emojiArt}
-          onImageSelect={processImage}
-        />
+        <div className="flex-1 min-h-0">
+          <ImageDisplay 
+            imageUrl={imageUrl}
+            selectedEmoji={selectedEmoji}
+            useMultipleEmoji={useMultipleEmoji}
+            emojiArt={emojiArt}
+            onImageSelect={processImage}
+          />
+        </div>
       </main>
     </div>
   )
