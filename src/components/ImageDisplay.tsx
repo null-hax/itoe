@@ -21,6 +21,8 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
   loading
 }) => {
   const [scale, setScale] = useState(1)
+  const [toastVisible, setToastVisible] = useState(false)
+  const toastTimeoutRef = useRef<NodeJS.Timeout>()
   const containerRef = useRef<HTMLDivElement>(null)
   const preRef = useRef<HTMLPreElement>(null)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
@@ -114,10 +116,29 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
     
     try {
       await navigator.clipboard.writeText(emojiArt)
+      
+      // Clear any existing timeout
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current)
+      }
+      
+      setToastVisible(true)
+      toastTimeoutRef.current = setTimeout(() => {
+        setToastVisible(false)
+      }, 2000)
     } catch (err) {
       console.error('Failed to copy:', err)
     }
   }
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current)
+      }
+    }
+  }, [])
 
   if (loading) {
     return (
@@ -128,7 +149,7 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
+    <div className="w-full h-full flex flex-col items-center justify-center relative">
       <div 
         {...getRootProps()}
         ref={containerRef}
@@ -173,6 +194,17 @@ export const ImageDisplay: React.FC<ImageDisplayProps> = ({
           </button>
         </div>
       )}
+      
+      <div
+        className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-black/90 text-white rounded-md shadow-lg transition-all duration-200 ease-out ${
+          toastVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+        style={{ zIndex: 1000 }}
+      >
+        Copied to clipboard!
+      </div>
     </div>
   )
 } 
