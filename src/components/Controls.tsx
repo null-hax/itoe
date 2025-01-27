@@ -1,5 +1,6 @@
 import EmojiPicker from 'emoji-picker-react'
 import { useState } from 'react'
+import React from 'react'
 
 interface ControlsProps {
   selectedEmoji: string
@@ -7,15 +8,23 @@ interface ControlsProps {
   useMultipleEmoji: boolean
   setUseMultipleEmoji: (use: boolean) => void
   onImageUpload: (url: string) => void
+  onSingleEmojiChange: (emoji: string) => void
+  onDetailLevelChange: (detail: number) => void
+  detailLevel: number
+  singleEmoji: string
 }
 
-export function Controls({
+export const Controls: React.FC<ControlsProps> = ({
   selectedEmoji,
   setSelectedEmoji,
   useMultipleEmoji,
   setUseMultipleEmoji,
   onImageUpload,
-}: ControlsProps) {
+  onSingleEmojiChange,
+  onDetailLevelChange,
+  detailLevel,
+  singleEmoji
+}) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,6 +80,20 @@ export function Controls({
           className="hidden"
         />
       </label>
+      
+      <div className="flex flex-col items-center gap-2">
+        <label className="text-sm font-medium text-gray-700">
+          Detail Level: {detailLevel}
+        </label>
+        <input
+          type="range"
+          min="20"
+          max="100"
+          value={detailLevel}
+          onChange={(e) => onDetailLevelChange(Number(e.target.value))}
+          className="w-48 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        />
+      </div>
     </div>
   )
 }

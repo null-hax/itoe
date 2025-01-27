@@ -1,26 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { imageToEmoji } from '../utils/imageToEmoji'
 
 interface ImageDisplayProps {
   imageUrl: string
   selectedEmoji: string
   useMultipleEmoji: boolean
+  onImageSelect: (imageUrl: string) => Promise<void>
+  emojiArt: string
 }
 
-export function ImageDisplay({ 
-  imageUrl, 
-  selectedEmoji, 
-  useMultipleEmoji 
-}: ImageDisplayProps) {
-  const [emojiArt, setEmojiArt] = useState<string>('')
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    setLoading(true)
-    imageToEmoji(imageUrl, useMultipleEmoji ? undefined : selectedEmoji)
-      .then(setEmojiArt)
-      .finally(() => setLoading(false))
-  }, [imageUrl, selectedEmoji, useMultipleEmoji])
+export const ImageDisplay: React.FC<ImageDisplayProps> = ({
+  imageUrl,
+  selectedEmoji,
+  useMultipleEmoji,
+  onImageSelect,
+  emojiArt
+}) => {
+  const [loading, setLoading] = useState(false)
 
   if (loading) {
     return (
