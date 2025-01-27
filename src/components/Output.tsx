@@ -4,10 +4,10 @@ import { imageToEmoji } from '../utils/imageToEmoji';
 interface OutputProps {
   imageUrl: string;
   selectedEmoji?: string;
-  useAllEmoji: boolean;
+  detailLevel?: number;
 }
 
-const Output = ({ imageUrl, selectedEmoji, useAllEmoji }: OutputProps) => {
+const Output = ({ imageUrl, selectedEmoji, detailLevel = 50 }: OutputProps) => {
   const [emojiMatrix, setEmojiMatrix] = useState<string[][]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,11 +15,13 @@ const Output = ({ imageUrl, selectedEmoji, useAllEmoji }: OutputProps) => {
     const convertImage = async () => {
       try {
         setLoading(true);
-        const matrix = await imageToEmoji(
+        const result = await imageToEmoji(
           imageUrl,
-          50,
-          useAllEmoji ? undefined : selectedEmoji
+          selectedEmoji,
+          detailLevel
         );
+        // Split the result string into a matrix
+        const matrix = result.split('\n').map(row => row.split(''));
         setEmojiMatrix(matrix);
       } catch (error) {
         console.error('Failed to convert image:', error);
@@ -29,7 +31,7 @@ const Output = ({ imageUrl, selectedEmoji, useAllEmoji }: OutputProps) => {
     };
 
     convertImage();
-  }, [imageUrl, selectedEmoji, useAllEmoji]);
+  }, [imageUrl, selectedEmoji, detailLevel]);
 
   if (loading) {
     return (

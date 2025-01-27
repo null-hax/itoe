@@ -8,10 +8,8 @@ interface ControlsProps {
   useMultipleEmoji: boolean
   setUseMultipleEmoji: (use: boolean) => void
   onImageUpload: (url: string) => void
-  onSingleEmojiChange: (emoji: string) => void
   onDetailLevelChange: (detail: number) => void
   detailLevel: number
-  singleEmoji: string
 }
 
 export const Controls: React.FC<ControlsProps> = ({
@@ -20,10 +18,8 @@ export const Controls: React.FC<ControlsProps> = ({
   useMultipleEmoji,
   setUseMultipleEmoji,
   onImageUpload,
-  onSingleEmojiChange,
   onDetailLevelChange,
-  detailLevel,
-  singleEmoji
+  detailLevel
 }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 

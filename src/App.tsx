@@ -57,9 +57,6 @@ function App() {
         
         <div className="flex-1 min-h-0">
           <ImageDisplay 
-            imageUrl={imageUrl}
-            selectedEmoji={selectedEmoji}
-            useMultipleEmoji={useMultipleEmoji}
             emojiArt={emojiArt}
             onImageSelect={processImage}
             loading={loading}

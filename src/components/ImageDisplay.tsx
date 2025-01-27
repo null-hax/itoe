@@ -1,28 +1,21 @@
 import { useState, useRef, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import html2canvas from 'html2canvas'
-import { imageToEmoji } from '../utils/imageToEmoji'
 
 interface ImageDisplayProps {
-  imageUrl: string
-  selectedEmoji: string
-  useMultipleEmoji: boolean
   onImageSelect: (imageUrl: string) => Promise<void>
   emojiArt: string
   loading: boolean
 }
 
 export const ImageDisplay: React.FC<ImageDisplayProps> = ({
-  imageUrl,
-  selectedEmoji,
-  useMultipleEmoji,
   onImageSelect,
   emojiArt,
   loading
 }) => {
   const [scale, setScale] = useState(1)
   const [toastVisible, setToastVisible] = useState(false)
-  const toastTimeoutRef = useRef<NodeJS.Timeout>()
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
   const containerRef = useRef<HTMLDivElement>(null)
   const preRef = useRef<HTMLPreElement>(null)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)

@@ -1,11 +1,3 @@
-const getPixelData = (
-  ctx: CanvasRenderingContext2D,
-  width: number,
-  height: number
-): ImageData => {
-  return ctx.getImageData(0, 0, width, height);
-};
-
 const rgbToLuminance = (r: number, g: number, b: number): number => {
   return 0.299 * r + 0.587 * g + 0.114 * b;
 };
