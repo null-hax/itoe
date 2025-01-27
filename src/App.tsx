@@ -3,6 +3,7 @@ import { ImageDisplay } from './components/ImageDisplay'
 import { Controls } from './components/Controls'
 import { Header } from './components/Header'
 import { imageToEmoji } from './utils/imageToEmoji'
+import { generateFavicon } from './utils/generateFavicon'
 
 function App() {
   const [selectedEmoji, setSelectedEmoji] = useState('🍊')
@@ -39,6 +40,22 @@ function App() {
       processImage(imageUrl)
     }
   }, [imageUrl, processImage])
+
+  // Set favicon on mount
+  useEffect(() => {
+    const favicon = document.createElement('link')
+    favicon.rel = 'icon'
+    favicon.type = 'image/png'
+    favicon.href = generateFavicon('🍊')
+    
+    // Remove any existing favicons
+    document.head
+      .querySelectorAll('link[rel*="icon"]')
+      .forEach(el => el.remove())
+    
+    // Add our new favicon
+    document.head.appendChild(favicon)
+  }, [])
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-[#D7D5CA]">
